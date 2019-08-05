@@ -1,20 +1,15 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "zjkal/xc-admin",
+    "description": "A RBAC framework based on Thinkphp5.1",
     "type": "project",
-    "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
-    ],
-    "homepage": "http://thinkphp.cn/",
-    "license": "Apache-2.0",
+    "license": "MIT",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "zjkal",
+            "email": "zjkal@qq.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
