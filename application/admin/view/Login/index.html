@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>登录 - {$Think.config.app_name}管理后台</title>
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/static/admin/css/style.min.css" rel="stylesheet">
+    <style>
+        .lyear-wrapper {
+            position: relative;
+        }
+
+        .lyear-login {
+            display: flex !important;
+            min-height: 100vh;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .login-center {
+            background: #fff;
+            min-width: 38.25rem;
+            padding: 2.14286em 3.57143em;
+            border-radius: 5px;
+            margin: 2.85714em 0;
+        }
+
+        .login-header {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control {
+            padding-left: 38px;
+            padding-right: 12px;
+        }
+
+        .login-center .has-feedback.feedback-left .form-control-feedback {
+            left: 0;
+            right: auto;
+            width: 38px;
+            height: 38px;
+            line-height: 38px;
+            z-index: 4;
+            color: #dcdcdc;
+        }
+
+        .login-center .has-feedback.feedback-left.row .form-control-feedback {
+            left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="row lyear-wrapper">
+    <div class="lyear-login">
+        <div class="login-center">
+            <div class="login-header text-center">
+                <p style="font-size: 26px;">管理员登录</p>
+            </div>
+            <form method="post">
+                <div class="form-group has-feedback feedback-left">
+                    <input type="text" placeholder="请输入用户名" class="form-control" name="username" id="name"/>
+                    <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span>
+                </div>
+                <div class="form-group has-feedback feedback-left">
+                    <input type="password" placeholder="请输入密码" class="form-control" id="password" name="password"/>
+                    <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span>
+                </div>
+                <div class="form-group has-feedback feedback-left row">
+                    <div class="col-xs-7">
+                        <input type="text" name="captcha" id="code" class="form-control" placeholder="验证码" data-validate="required:请填写右侧的验证码" autocomplete="off">
+                        <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-xs-5">
+                        <img src="{:captcha_src()}" class="pull-right" id="captcha" style="cursor: pointer;" onclick="this.src=this.src+'?d='+Math.random();" title="点击刷新" alt="captcha">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-block btn-primary" type="button" id="btn">立即登录</button>
+                </div>
+            </form>
+            <hr>
+            <footer class="col-sm-12 text-center">
+                <p class="m-b-0">Copyright &copy; 2019 xc-soft All right reserved</p>
+            </footer>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        document.onkeydown = function (event) {
+            let e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode === 13) { // enter 键
+                $('#btn').click();
+            }
+        };
+        $('#btn').click(function () {
+            let name = $('#name').val();
+            let password = $('#password').val();
+            let code = $('#code').val();
+            $.ajax({
+                url: "/admin/login/index",
+                data: {name: name, password: password, code: code},
+                type: "POST",
+                success: function (res) {
+                    if (res.code === 1) {
+                        swal("登录成功,页面跳转中...", {
+                            buttons: false,
+                            timer: 1500,
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.href = res.data;
+                        });
+                    } else {
+                        swal(res.msg, '', 'error');
+                        $('#captcha').attr('src', '{:captcha_src()}?tm=\'+Math.random()');
+                        $('#code').val('');
+
+                    }
+                }
+            });
+
+        });
+    });
+</script>
+</body>
+</html>

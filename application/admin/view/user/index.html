@@ -1,0 +1,227 @@
+{extend name="public/base"/}
+
+{block name="title"}管理员管理{/block}
+{block name="main"}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-toolbar clearfix">
+                <form class="pull-right search-bar" method="post" action="/admin/user/index" role="form">
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="" id="search_name" name="search_name" placeholder="请输入用户名">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" id="search_btn" type="button">查找</button>
+                        </span>
+                    </div>
+                </form>
+                <div class="toolbar-btn-action">
+                    <a class="btn btn-primary m-r-5" href="/admin/user/add"><i class="mdi mdi-plus"></i> 新增</a>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                <label class="lyear-checkbox checkbox-primary">
+                                    <input type="checkbox" id="check-all"><span></span>
+                                </label>
+                            </th>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>角色</th>
+                            <th>真实姓名</th>
+                            <th>上次登录时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+                            <td>
+                                <label class="lyear-checkbox checkbox-primary">
+                                    <input type="checkbox" name="ids[]" value="1"><span></span>
+                                </label>
+                            </td>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.username}</td>
+                            <td>{$vo.rolename}</td>
+                            <td>{$vo.realname}</td>
+                            <td>{$vo.last_login_time}</td>
+                            {eq name = "$vo.status" value="1"}
+                            <td><span class="text-success">正常</span></td>
+                            {else}
+                            <td><span class="text-fade">禁用</span></td>
+                            {/eq}
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-xs btn-default" id="edit" title="编辑" onclick="edit({$vo.id});" data-toggle="tooltip"><i class="fa fa-pencil" aria-hidden="true"></i>编辑</a>
+                                    <a class="btn btn-xs btn-default" id="del" title="删除" onclick="del({$vo.id});" data-toggle="tooltip"><i class="fa fa-close" aria-hidden="true"></i>删除</a>
+                                    {eq name="$vo.status" value="1"}
+                                    <a class="btn btn-xs btn-default" id="disable" title="禁用" onclick="disable({$vo.id});" data-toggle="tooltip"><i class="fa fa-minus-square" aria-hidden="true"></i>禁用</a>
+                                    {else}
+                                    <a class="btn btn-xs btn-default" id="enable" title="启用" onclick="enable({$vo.id});" data-toggle="tooltip"><i class="fa fa-check-square" aria-hidden="true"></i>启用</a>
+                                    {/eq}
+                                </div>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                {$list|raw}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    //搜索功能
+    $(function(){
+        $('#search_btn').click(function () {
+            var name = $('#search_name').val();
+            $.post('/admin/user/index', {name:name});
+        });
+    });
+    //删除
+    function del(id){
+        if (id === 1) {
+            swal('超级管理员不能被删除', '', 'warning');
+            return false;
+        } else {
+            swal('确定要删除该管理员吗?', {
+                icon: 'warning',
+                dangerMode: true,
+                buttons: {
+                    cancel: {
+                        text: "取消",
+                        value: false,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "确认",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                }
+            }).then((rst) => {
+                if (rst) {
+                    $.post('/admin/user/del',
+                        {id: id},
+                        function (res) {
+                            if (res.code === 1) {
+                                swal(res.msg, '', 'success')
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            } else {
+                                swal(res.msg, '', 'error');
+                            }
+                        });
+                }
+            });
+
+        }
+    }
+    //编辑
+    function edit(id) {
+        if (id === 1) {
+            swal('超级管理员不能被编辑', '', 'warning');
+            return false;
+        }
+        window.location.href = `/admin/user/edit?id=${id}`;
+    }
+
+    //禁用
+    function disable(id) {
+        if (id === 1) {
+            swal('超级管理员不能被禁用', '', 'warning');
+            return false;
+        } else {
+            swal('确定要禁用该管理员吗?', {
+                icon: 'warning',
+                dangerMode: true,
+                buttons: {
+                    cancel: {
+                        text: "取消",
+                        value: false,
+                        visible: true,
+                        className: "",
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: "确认",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                }
+            }).then((rst) => {
+                if (rst) {
+                    $.post('/admin/user/disable',
+                        {id: id},
+                        function (res) {
+                            if (res.code === 1) {
+                                swal(res.msg, '', 'success')
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            } else {
+                                swal(res.msg, '', 'error');
+                            }
+                        });
+                }
+            });
+
+        }
+    }
+
+    //启用
+    function enable(id) {
+        swal('确定要启用该管理员吗?', {
+            icon: 'warning',
+            dangerMode: true,
+            buttons: {
+                cancel: {
+                    text: "取消",
+                    value: false,
+                    visible: true,
+                    className: "",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "确认",
+                    value: true,
+                    visible: true,
+                    className: "",
+                    closeModal: true
+                }
+            }
+        }).then((rst) => {
+            if (rst) {
+                $.post('/admin/user/enable',
+                    {id: id},
+                    function (res) {
+                        if (res.code === 1) {
+                            swal(res.msg, '', 'success')
+                                .then(() => {
+                                    location.reload();
+                                });
+                        } else {
+                            swal(res.msg, '', 'error');
+                        }
+                    });
+            }
+        });
+    }
+</script>
+{/block}

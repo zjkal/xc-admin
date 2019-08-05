@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>{block name="title"}{/block} - {$Think.config.app_name}管理后台</title>
+    <meta name="author" content="xc-soft.com">
+    <link href="/static/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/admin/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/static/admin/css/style.min.css" rel="stylesheet">
+    <link href="/static/admin/css/font-awesome.min.css" rel="stylesheet">
+    {block name="css"}{/block}
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--左侧导航-->
+        <aside class="lyear-layout-sidebar">
+
+            <!-- logo -->
+            <div id="logo" class="sidebar-header">
+                <a href="/admin" class="logo">{$Think.config.app_name}管理后台</a>
+            </div>
+            <div class="lyear-layout-sidebar-scroll">
+
+                <nav class="sidebar-main">
+                    <ul class="nav nav-drawer">
+                        <li class="nav-item"><a href="/admin"><i class="fa fa-home" aria-hidden="true"></i> 后台首页</a></li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="fa fa-user" aria-hidden="true"></i> 用户管理</a>
+                            <ul class="nav nav-subnav">
+                                <li><a href="/admin/user/index">管理员管理</a></li>
+                                <li><a href="/admin/role/index">角色管理</a></li>
+                                <li><a href="/admin/permission/index">权限节点管理</a></li>
+                                <li><a href="/admin/permission_category/index">权限目录管理</a></li>
+                            </ul>
+                        </li>
+                        {php}
+                        foreach($menu_category as $c){
+                        {/php}
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="fa {php}echo $c['icon'];{/php}" aria-hidden="true"></i> {php}echo $c['name'];{/php}</a>
+                            <ul class="nav nav-subnav">
+                                {php}foreach($menu_node as $n){
+                                if($n['category_id']==$c['id']){
+                                {/php}
+                                <li><a href="{php}echo $n['path'];{/php}">{php}echo $n['name'];{/php}</a></li>
+                                {php}}}{/php}
+
+                            </ul>
+                        </li>
+                        {php} } {/php}
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p class="copyright">Copyright &copy; 2019 <a target="_blank" href="https://www.xc-soft.com">xc-soft</a> All rights reserved.</p>
+                </div>
+            </div>
+
+        </aside>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <header class="lyear-layout-header">
+
+            <nav class="navbar navbar-default">
+                <div class="topbar">
+
+                    <div class="topbar-left">
+                        <div class="lyear-aside-toggler">
+                            <span class="lyear-toggler-bar"></span>
+                            <span class="lyear-toggler-bar"></span>
+                            <span class="lyear-toggler-bar"></span>
+                        </div>
+                        <span class="navbar-page-title"> {block name="title"}{/block} </span>
+                    </div>
+
+                    <ul class="topbar-right">
+                        <li class="dropdown dropdown-profile">
+                            <a href="javascript:void(0)" data-toggle="dropdown">
+                                <img class="img-avatar img-avatar-48 m-r-10" src="/static/admin/images/users/avatar.jpg" alt="avatar"/>
+                                <span>{$Think.session.curr_admin.username} <span class="caret"></span></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="javascript:"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                                <li><a href="javascript:"><i class="mdi mdi-lock-outline"></i> 修改密码</a></li>
+                                <li><a href="javascript:"><i class="mdi mdi-delete"></i> 清空缓存</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/admin/login/logout"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+
+        </header>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+                {block name="main"}{/block}
+            </div>
+
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/main.min.js"></script>
+{block name="js"}{/block}
+</body>
+</html>
