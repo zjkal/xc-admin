@@ -1,21 +1,15 @@
 基于Thinkphp5.1的RBAC开发后台
 ===============
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/top-think/framework/badges/quality-score.png?b=5.1)](https://scrutinizer-ci.com/g/top-think/framework/?branch=5.1)
-[![Build Status](https://travis-ci.org/top-think/framework.svg?branch=master)](https://travis-ci.org/top-think/framework)
-[![Total Downloads](https://poser.pugx.org/topthink/framework/downloads)](https://packagist.org/packages/topthink/framework)
-[![Latest Stable Version](https://poser.pugx.org/topthink/framework/v/stable)](https://packagist.org/packages/topthink/framework)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D5.6-8892BF.svg)](http://www.php.net/)
-[![License](https://poser.pugx.org/topthink/framework/license)](https://packagist.org/packages/topthink/framework)
-
 > 按照ThinkPHP5的运行环境要求PHP5.6以上。
+> 没有改变任何Thinkphp框架的文件, 开发文档请参见Thinkphp官方文档。
 
 ## 安装
 
 使用composer安装
 
 ~~~
-composer create-project zjkal/xc-admin tp
+composer create-project zjkal/xc-admin xc-admin
 ~~~
 
 导入数据库并修改database.php的数据库配置
