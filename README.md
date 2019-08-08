@@ -6,19 +6,20 @@
 
 ## 安装
 
-使用composer安装
+1. 使用composer安装
 
 ~~~
 composer create-project zjkal/xc-admin xc-admin
 ~~~
 
-导入数据库并修改database.php的数据库配置
 
-
-更新框架
+2. 进入项目根目录(xc-admin)更新框架
 ~~~
 composer update -vvv
 ~~~
+
+
+3. 导入数据库文件(xc-admin.sql)并修改database.php的数据库配置
 
 
 ## 目录结构
