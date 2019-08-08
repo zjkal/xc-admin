@@ -15,6 +15,10 @@ use think\facade\Request;
  */
 class User extends Base
 {
+    //管理员修改密码页面
+    public function password(){
+        return $this->fetch();
+    }
     //管理员列表页面
     public function index()
     {

@@ -50,8 +50,10 @@
                             {/eq}
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-xs btn-default" id="edit" title="编辑" onclick="edit({$vo.id});" data-toggle="tooltip"><i class="fa fa-pencil" aria-hidden="true"></i>编辑</a>
-                                    <a class="btn btn-xs btn-default" id="del" title="删除" onclick="del({$vo.id});" data-toggle="tooltip"><i class="fa fa-close" aria-hidden="true"></i>删除</a>
+                                    <a class="btn btn-xs btn-default" id="edit" title="编辑" onclick="edit({$vo.id});"
+                                       data-toggle="tooltip"><i class="fa fa-pencil" aria-hidden="true"></i>编辑</a>
+                                    <a class="btn btn-xs btn-default" id="del" title="删除" onclick="del({$vo.id});"
+                                       data-toggle="tooltip"><i class="fa fa-close" aria-hidden="true"></i>删除</a>
                                 </div>
                             </td>
                         </tr>
@@ -69,61 +71,12 @@
 <script type="text/javascript">
     //编辑
     function edit(id) {
-        if (id === 1) {
-            swal('超级管理员不能被编辑', '', 'warning');
-            return false;
-        }
-        window.location.href = `/admin/user/edit?id=${id}`;
+        window.location.href = `/admin/permission/edit?id=${id}`;
     }
 
-    //禁用
-    function disable(id) {
-        if (id === 1) {
-            swal('超级管理员不能被禁用', '', 'warning');
-            return false;
-        } else {
-            swal('确定要禁用该管理员吗?', {
-                icon: 'warning',
-                dangerMode: true,
-                buttons: {
-                    cancel: {
-                        text: "取消",
-                        value: false,
-                        visible: true,
-                        className: "",
-                        closeModal: true,
-                    },
-                    confirm: {
-                        text: "确认",
-                        value: true,
-                        visible: true,
-                        className: "",
-                        closeModal: true
-                    }
-                }
-            }).then((rst) => {
-                if (rst) {
-                    $.post('/admin/user/disable',
-                        {id: id},
-                        function (res) {
-                            if (res.code === 1) {
-                                swal(res.msg, '', 'success')
-                                    .then(() => {
-                                        location.reload();
-                                    });
-                            } else {
-                                swal(res.msg, '', 'error');
-                            }
-                        });
-                }
-            });
-
-        }
-    }
-
-    //启用
-    function enable(id) {
-        swal('确定要启用该管理员吗?', {
+    //删除
+    function del(id) {
+        swal('确定要删除该节点吗?', {
             icon: 'warning',
             dangerMode: true,
             buttons: {
@@ -144,7 +97,7 @@
             }
         }).then((rst) => {
             if (rst) {
-                $.post('/admin/user/enable',
+                $.post('/admin/permission/del',
                     {id: id},
                     function (res) {
                         if (res.code === 1) {
