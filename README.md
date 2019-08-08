@@ -22,6 +22,9 @@ composer update -vvv
 3. 导入数据库文件(xc-admin.sql)并修改database.php的数据库配置
 
 
+4.访问你的本地网址, 如http://localhost/admin
+账号:admin  密码:admin
+
 ## 目录结构
 
 初始的目录结构如下：

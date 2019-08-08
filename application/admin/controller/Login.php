@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use think\Controller;
 use app\admin\model\User as UserModel;
 use gmars\rbac\Rbac;
+use think\Exception;
 use think\facade\Request;
 
 /**
@@ -43,8 +44,14 @@ class Login extends Controller
             }
 
             session('curr_admin', $rst);
-            $rbac = new Rbac();
-            $rbac->cachePermission($rst['id']);
+            if ($rst['id'] !== 1) {
+                try {
+                    $rbac = new Rbac();
+                    $rbac->cachePermission($rst['id']);
+                }catch (Exception $ex){
+                    return msg(-1, '', $ex->getMessage());
+                }
+            }
             return msg(1, '/admin', '登录成功');
         } else {
             return $this->fetch();
