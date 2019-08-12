@@ -43,11 +43,11 @@
                             </tr>
                             <tr>
                                 <td class="{$ca.id}">
-                                    {volist name="node" id="vo"}
-                                    {eq name="$vo.category_id" value="$ca.id"}
+                                    {volist name="node" id="no"}
+                                    {eq name="$no.category_id" value="$ca.id"}
                                     <label class="lyear-checkbox checkbox-primary checkbox-inline">
-                                        <input name="node" type="checkbox" class="checkbox-child" dataid="id-{$ca.id}-{$vo.id}" {eq name="$vo.checked" value="1"}checked{/eq} value="{$vo.id}">
-                                        <span>{$vo.name}</span>
+                                        <input name="node" type="checkbox" class="checkbox-child" dataid="id-{$ca.id}-{$no.id}" {eq name="$no.checked" value="1"}checked{/eq} value="{$no.id}">
+                                        <span>{$no.name}</span>
                                     </label>
                                     {/eq}
                                     {/volist}

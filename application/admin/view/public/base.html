@@ -19,8 +19,8 @@
         <aside class="lyear-layout-sidebar">
 
             <!-- logo -->
-            <div id="logo" class="sidebar-header" style="font-size: 20px;padding: 10px 0">
-                <a href="/admin"><span>{$Think.config.app_name}管理后台</span></a>
+            <div id="logo" class="sidebar-header">
+                <a href="/admin"><span style="font-size: 32px;">{$Think.config.app_name}管理后台</span></a>
             </div>
             <div class="lyear-layout-sidebar-scroll">
 
@@ -36,21 +36,18 @@
                                 <li><a href="/admin/permission_category/index">权限目录管理</a></li>
                             </ul>
                         </li>
-                        {php}
-                        foreach($menu_category as $c){
-                        {/php}
+                        {volist name="menu_category" id="menu"}
                         <li class="nav-item nav-item-has-subnav">
-                            <a href="javascript:void(0)"><i class="fa {php}echo $c['icon'];{/php}" aria-hidden="true"></i> {php}echo $c['name'];{/php}</a>
+                            <a href="javascript:void(0)"><i class="fa {$menu.icon}" aria-hidden="true"></i> {$menu.name}</a>
                             <ul class="nav nav-subnav">
-                                {php}foreach($menu_node as $n){
-                                if($n['category_id']==$c['id']){
-                                {/php}
-                                <li><a href="/{php}echo $n['path'];{/php}">{php}echo $n['name'];{/php}</a></li>
-                                {php}}}{/php}
-
+                                {volist name="menu_node" id="mnode"}
+                                {eq name="$mnode.category_id" value="$menu.id"}
+                                <li><a href="/{$mnode.path}">{$mnode.name}</a></li>
+                                {/eq}
+                                {/volist}
                             </ul>
                         </li>
-                        {php} } {/php}
+                        {/volist}
                     </ul>
                 </nav>
 

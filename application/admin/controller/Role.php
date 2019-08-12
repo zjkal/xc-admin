@@ -54,6 +54,7 @@ class Role extends Base
         } else {
             $category = $rbac->getPermissionCategory([['status', '=', 1]]);
             $node = $rbac->getPermission([['status', '=', 1]]);
+
             $this->assign('category', $category);
             $this->assign('node', $node);
             return $this->fetch();

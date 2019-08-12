@@ -31,32 +31,28 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {php}
-                            foreach($category as $i){
-                            {/php}
+                            {foreach $category as $key=>$ca}
                             <tr>
                                 <td>
                                     <label class="lyear-checkbox checkbox-primary">
-                                        <input type="checkbox" class="checkbox-parent" dataid="id-{php}echo $i['id'];{/php}" value="{php}echo $i['id'];{/php}">
-                                        <span>{php}echo $i['name'];{/php}</span>
+                                        <input type="checkbox" class="checkbox-parent" dataid="id-{$ca.id}" value="{$ca.id}">
+                                        <span>{$ca.name}</span>
                                     </label>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="{php}echo $i['id'];{/php}">
-                                    {php}foreach($node as $j){
-                                    if($j['category_id']==$i['id']){
-                                    {/php}
-
+                                <td class="{$ca.id}">
+                                    {foreach $node as $k=>$v}
+                                    {eq name="$v.category_id" value="$ca.id"}
                                     <label class="lyear-checkbox checkbox-primary checkbox-inline">
-                                        <input name="node" type="checkbox" class="checkbox-child" dataid="id-{php}echo $i['id'];{/php}-{php}echo $j['id'];{/php}" value="{php}echo $j['id'];{/php}">
-                                        <span>{php}echo $j['name'];{/php}</span>
+                                        <input name="node" type="checkbox" class="checkbox-child" dataid="id-{$ca.id}-{$v.id}" value="{$v.id}">
+                                        <span>{$v.name}</span>
                                     </label>
-
-                                    {php}}}{/php}
+                                    {/eq}
+                                    {/foreach}
                                 </td>
                             </tr>
-                            {php} } {/php}
+                            {/foreach}
                             </tbody>
                         </table>
                         <div class="form-group col-md-12">

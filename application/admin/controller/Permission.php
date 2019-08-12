@@ -118,11 +118,11 @@ class Permission extends Base
         }
     }
 
-    //删除权限
+    //删除权限节点
     public function del($id){
         //判断此权限是否有角色使用
         $rp = new RolePermission();
-        $is_rp = $rp->where('permission_id',$id)->find();
+        $is_rp = $rp->where('permission_id',$id)->where('role_id','<>','1')->find();
         if($is_rp){
             return msg(-1, '', '该权限被角色使用');
         }

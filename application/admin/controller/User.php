@@ -16,9 +16,32 @@ use think\facade\Request;
 class User extends Base
 {
     //管理员修改密码页面
-    public function password(){
-        return $this->fetch();
+    public function password()
+    {
+        if (Request::isAjax()) {
+            $op = input('op');
+            $np = input('np');
+            $id = session('curr_admin.id');
+            //查询该管理员旧密码
+            $pwd = UserModel::where('id', $id)->value('password');
+            if (md5('xc_' . $op) != $pwd) {
+                return msg(-1, '', '旧密码不正确');
+            }
+            //修改密码
+
+            $user = new UserModel();
+            $rst = $user->save(['password' => md5('xc_' . $np)], ['id' => $id]);
+            if($rst) {
+                session('curr_admin', null);
+                return msg(1, '', '更新成功');
+            }else{
+                return msg(-2, '', '更新失败');
+            }
+        } else {
+            return $this->fetch();
+        }
     }
+
     //管理员列表页面
     public function index()
     {
@@ -27,7 +50,7 @@ class User extends Base
             ->field('u.id,u.username,u.realname,u.status,u.create_time,u.last_login_time,r.name as rolename')
             ->leftJoin('xc_user_role ur', 'ur.user_id = u.id')
             ->leftJoin('xc_role r', 'r.id = ur.role_id')
-            ->where('u.is_del','=',0)
+            ->where('u.is_del', '=', 0)
             ->paginate(11);
         $this->assign('list', $list);
         return $this->fetch();
