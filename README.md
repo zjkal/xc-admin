@@ -12,6 +12,8 @@
 composer create-project zjkal/xc-admin xc-admin
 ~~~
 
+后面的xc-admin可以换成你的项目名,和Thinkphp5的安装方式一样
+
 
 2. 进入项目根目录(xc-admin)更新框架
 ~~~
@@ -22,7 +24,7 @@ composer update -vvv
 3. 导入数据库文件(xc-admin.sql)并修改database.php的数据库配置
 
 
-4.访问你的本地网址, 如http://localhost/admin
+4. 访问你的本地网址, 如http://localhost/admin
 账号:admin  密码:admin
 
 ## 目录结构
