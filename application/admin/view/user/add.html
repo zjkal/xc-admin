@@ -62,6 +62,7 @@
         $('#btn').click(function () {
             let role = $('#role').val();
             let username = $('#username').val();
+            let realname = $('#realname').val();
             let password = $('#password').val();
             let repassword = $('#repassword').val();
             let status = $('input:radio[name="status"]:checked').val();
@@ -75,7 +76,7 @@
             }
             $.ajax({
                 url: "/admin/user/add",
-                data: {username: username, password: password, role: role, status: status},
+                data: {username: username,realname:realname, password: password, role: role, status: status},
                 type: "POST",
                 dataType: "JSON",
                 success: function (data) {
