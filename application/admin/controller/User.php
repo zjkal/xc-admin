@@ -45,12 +45,18 @@ class User extends Base
     //管理员列表页面
     public function index()
     {
+        $search = input('post.name');
+        $where = [];
+        if($search){
+            $where[] = ['u.username','like',$search.'%'];
+        }
         $userModel = new UserModel();
         $list = $userModel->alias('u')
             ->field('u.id,u.username,u.realname,u.status,u.create_time,u.last_login_time,r.name as rolename')
             ->leftJoin('xc_user_role ur', 'ur.user_id = u.id')
             ->leftJoin('xc_role r', 'r.id = ur.role_id')
             ->where('u.is_del', '=', 0)
+            ->where($where)
             ->paginate(11);
         $this->assign('list', $list);
         return $this->fetch();

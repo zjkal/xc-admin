@@ -10,7 +10,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" value="" id="search_name" name="search_name" placeholder="请输入用户名">
                         <span class="input-group-btn">
-                          <button class="btn btn-default" id="search_btn" type="button">查找</button>
+                          <button class="btn btn-default" id="search_btn" type="submit">查找</button>
                         </span>
                     </div>
                 </form>
@@ -80,13 +80,6 @@
 {/block}
 {block name="js"}
 <script type="text/javascript">
-    //搜索功能
-    $(function(){
-        $('#search_btn').click(function () {
-            var name = $('#search_name').val();
-            $.post('/admin/user/index', {name:name});
-        });
-    });
     //删除
     function del(id){
         if (id === 1) {
