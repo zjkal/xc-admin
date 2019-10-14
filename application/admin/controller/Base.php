@@ -22,7 +22,8 @@ class Base extends Controller
         parent::initialize();
         if (!Session::has('curr_admin')) {
             if (Request::isAjax()) {
-                return msg(-1, '/admin/login/index', '登录超时');
+                echo json_encode(['code'=>-1, 'data'=>'/admin/login/index', 'msg'=>'登录超时']);
+                exit();
             } else {
                 $this->redirect('/admin/login/index');
             }
@@ -30,13 +31,13 @@ class Base extends Controller
         $rbac = new Rbac();
         $url = Request::baseUrl();
         //非超级管理员(ID为1) && 该URL不在权限排除列表 && 没有该URL的权限
-        if (Session::get('curr_admin.id') != 1 && !$this->uncheck($url) && !$rbac->can($url)) {
+        if (Session::get('curr_admin.id') != 1 && !$this->uncheck($url) && !$rbac->can(substr($url,1))) {
             if (Request::isAjax()) {
-                echo msg(-1, '', '没有权限');
+                echo json_encode(['code'=>-1, 'data'=>'/admin/login/index', 'msg'=>'没有权限'.$rbac->can(substr($url,1))]);
+                exit();
             } else {
                 $this->error('没有权限');
             }
-            exit('没有权限');
         }
 
         $this->make_menu();
