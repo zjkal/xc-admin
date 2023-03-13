@@ -13,10 +13,12 @@
     "require": {
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
+        "zjkal/time-helper": "^1.0",
         "gmars/tp5-nestedsets": "dev-master",
         "gmars/tp5-rbac": "^2.0",
         "topthink/think-migration": "*",
         "topthink/think-captcha": "2.0.*"
+        
     },
     "autoload": {
         "psr-4": {
