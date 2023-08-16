@@ -17,7 +17,7 @@ composer create-project zjkal/xc-admin xc-admin
 
 2. 进入项目根目录(xc-admin)更新框架
 ~~~
-composer update -vvv
+composer update
 ~~~
 
 
